@@ -88,8 +88,8 @@
 			children = (
 				3E45A3812095591A00147E85 /* AppDelegate.swift */,
 				3E45A3832095591A00147E85 /* ViewController.swift */,
-				3E45A3932095593C00147E85 /* InfoViewController.swift */,
 				3E45A3952095594900147E85 /* SettingsViewController.swift */,
+				3E45A3932095593C00147E85 /* InfoViewController.swift */,
 				3E45A3972095623F00147E85 /* APOD.swift */,
 				3E45A399209563E800147E85 /* Constants.swift */,
 				3E45A3852095591A00147E85 /* Main.storyboard */,

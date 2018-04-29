@@ -12,30 +12,23 @@ import SwiftyJSON
 
 class APOD {
     
-    struct Date {
-        var year = 0
-        var month = 0
-        var day = 0
-        var dateString = ""
-    }
+    var date = ""
     var apodURL = ""
-    var date = Date()
     var title = ""
     var explanation = ""
     var imageURL = ""
     var mediaType = ""
     
+    // I don't use this but it may come in handy some day
     init(year: Int, month: Int, day: Int) {
         setDate(year: year, month: month, day: day)
     }
-    init() {
-        
-    }
+    
+    init() {}
     
     func setAPOD(completed: @escaping ()->()) {
         setURL()
         Alamofire.request(apodURL).responseJSON { response in
-            print(response)
             switch response.result {
             case .success(let value):
                 let json = JSON(value)
@@ -67,35 +60,33 @@ class APOD {
     }
     
     func setURL(){
-        if date.dateString != ""{
-            apodURL = urlBase + apiKey + "&date=" + date.dateString
+        if date != ""{
+            apodURL = urlBase + apiKey + "&date=" + date
         }
         else {
             apodURL = urlBase + apiKey
         }
-        print(apodURL)
     }
     
+    // I don't use this in my code but I think it may come in handy some day
     func setDate(year: Int, month: Int, day: Int) {
-        date.year = year
-        date.month = month
-        date.day = day
-        date.dateString = "\(year)-\(month)-\(day)"
+        date = "\(year)-\(month)-\(day)"
     }
     
     func RandomDate(beginningYear: Int, endingYear: Int) {
-        date.year = Int(arc4random_uniform(UInt32(endingYear-beginningYear))) + beginningYear
-        date.month = Int(arc4random_uniform(UInt32(12))) + 1
-        if date.month == 1 || date.month == 3 || date.month == 5 || date.month == 7 || date.month == 8 || date.month == 10 || date.month == 12{
-            date.day = Int(arc4random_uniform(UInt32(31))) + 1
-        } else if date.month == 4 || date.month == 6 || date.month == 9 || date.month == 11 {
-            date.day = Int(arc4random_uniform(UInt32(30))) + 1
-        } else if date.year%4 == 0{
-            date.day = Int(arc4random_uniform(UInt32(29))) + 1
+        let year = Int(arc4random_uniform(UInt32(endingYear-beginningYear))) + beginningYear
+        let month = Int(arc4random_uniform(UInt32(12))) + 1
+        var day = Int()
+        if month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12{
+            day = Int(arc4random_uniform(UInt32(31))) + 1
+        } else if month == 4 || month == 6 || month == 9 || month == 11 {
+            day = Int(arc4random_uniform(UInt32(30))) + 1
+        } else if year%4 == 0{
+            day = Int(arc4random_uniform(UInt32(29))) + 1
         } else {
-            date.day = Int(arc4random_uniform(UInt32(28))) + 1
+            day = Int(arc4random_uniform(UInt32(28))) + 1
         }
-        date.dateString = "\(date.year)-\(date.month)-\(date.day)"
+        date = "\(year)-\(month)-\(day)"
     }
     
    

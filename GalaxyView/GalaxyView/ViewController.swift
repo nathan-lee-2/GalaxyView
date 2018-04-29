@@ -13,27 +13,38 @@ class ViewController: UIViewController {
     @IBOutlet weak var spaceImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var prevButton: UIButton!
-    var yearRestraints = [Int]()
     var apod = APOD()
-    var last = APOD() 
-    
+    var prevDate = ""
+    var nextDate = ""
+    var beginningYearIndex = Int()
+    var endingYearIndex = Int()
+    var soundEnabled = true
+    var slideshowModeEnabled = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        //newAPOD()
-        spaceImage.downloadedFrom(link: "https://apod.nasa.gov/apod/image/1801/PerseusCluster_DSSChandra_960.jpg")
+        beginningYearIndex = 15
+        endingYearIndex = possibleYears.count - 1
+        newAPOD()
         prevButton.isHidden = true
     }
     
     @IBAction func prevButtonPressed(_ sender: UIButton) {
-        apod.apodURL = last.apodURL
+        nextDate = apod.date
+        apod.date = prevDate
         prevButton.isHidden = true
         newAPOD()
     }
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         prevButton.isHidden = false
-        last.apodURL = apod.apodURL
-        apod.RandomDate(beginningYear: yearRestraints[0], endingYear: yearRestraints[yearRestraints.count])
+        prevDate = apod.date
+        if nextDate == "" {
+            apod.RandomDate(beginningYear: Int(possibleYears[beginningYearIndex])!, endingYear: Int(possibleYears[endingYearIndex])!)
+        }else {
+            apod.date = nextDate
+            nextDate = ""
+        }
         newAPOD()
     }
     
@@ -49,6 +60,20 @@ class ViewController: UIViewController {
             let destination = segue.destination as! InfoViewController
             destination.apod = self.apod
         }
+        else {
+            let destNavigationController = segue.destination as! UINavigationController
+            let targetVC = destNavigationController.topViewController as! SettingsViewController
+            targetVC.beginningYearIndex = self.beginningYearIndex
+            targetVC.endingYearIndex = self.endingYearIndex
+//            targetVC.enableSoundSwitch.isOn = soundEnabled
+//            targetVC.slideshowModeSwitch.isOn = slideshowModeEnabled
+        }
+    }
+    
+    
+    
+    @IBAction func unwindFromSettings(segue: UIStoryboardSegue) {
+        
     }
 }
 
