@@ -1,0 +1,11 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '10.0'
+
+source 'https://github.com/CocoaPods/Specs.git'
+target 'GalaxyView' do
+    use_frameworks!
+    # Pods for GalaxyView
+      pod 'Alamofire', '~>4.0'
+      pod 'SwiftyJSON'
+
+end
