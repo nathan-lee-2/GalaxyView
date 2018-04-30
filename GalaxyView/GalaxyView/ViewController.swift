@@ -14,37 +14,39 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var prevButton: UIButton!
     var apod = APOD()
-    var prevDate = ""
-    var nextDate = ""
+    var prevDates = [String]()
+    var counter = 0
     var beginningYearIndex = Int()
     var endingYearIndex = Int()
-    var soundEnabled = true
-    var slideshowModeEnabled = false
+    var nightMode = true
+    var slideshowMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         beginningYearIndex = 15
         endingYearIndex = possibleYears.count - 1
         newAPOD()
-        prevButton.isHidden = true
+        prevButton.isEnabled = false
     }
     
+    //looks through all previous apods in case user wanted to see one. Order is the order in which they were originally viewed
     @IBAction func prevButtonPressed(_ sender: UIButton) {
-        nextDate = apod.date
-        apod.date = prevDate
-        prevButton.isHidden = true
+        counter = counter - 1
+        if counter == 0 {
+            prevButton.isEnabled = false
+        }
+        apod.date = prevDates[counter]
         newAPOD()
     }
     
+    //changed the button.text to random to make it more user friendly but its still next in my code
     @IBAction func nextButtonPressed(_ sender: UIButton) {
-        prevButton.isHidden = false
-        prevDate = apod.date
-        if nextDate == "" {
-            apod.RandomDate(beginningYear: Int(possibleYears[beginningYearIndex])!, endingYear: Int(possibleYears[endingYearIndex])!)
-        }else {
-            apod.date = nextDate
-            nextDate = ""
+        prevButton.isEnabled = true
+        if !prevDates.contains(apod.date){
+            prevDates.append(apod.date)
         }
+        counter = prevDates.count
+        apod.RandomDate(beginningYear: Int(possibleYears[beginningYearIndex])!, endingYear: Int(possibleYears[endingYearIndex])!, excluding: prevDates)
         newAPOD()
     }
     
@@ -65,8 +67,8 @@ class ViewController: UIViewController {
             let targetVC = destNavigationController.topViewController as! SettingsViewController
             targetVC.beginningYearIndex = self.beginningYearIndex
             targetVC.endingYearIndex = self.endingYearIndex
-//            targetVC.enableSoundSwitch.isOn = soundEnabled
-//            targetVC.slideshowModeSwitch.isOn = slideshowModeEnabled
+            targetVC.nightModeOn = nightMode
+            targetVC.slideShowOn = slideshowMode
         }
     }
     

@@ -21,7 +21,7 @@ class InfoViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         titleLabel.text = apod.title
-        dateLabel.text = apod.date
+        dateLabel.text = "date: " + apod.date
         infoView.text = apod.explanation
     }
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {

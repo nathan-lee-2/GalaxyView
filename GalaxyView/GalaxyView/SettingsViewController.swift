@@ -10,34 +10,40 @@ import UIKit
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource{
     
-    @IBOutlet weak var enableSoundSwitch: UISwitch!
+    @IBOutlet weak var nightModeSwitch: UISwitch!
+    var nightModeOn = Bool()
     @IBOutlet weak var slideshowModeSwitch: UISwitch!
+    var slideShowOn = Bool()
     @IBOutlet weak var yearPicker: UIPickerView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     var beginningYearIndex = 15
     var endingYearIndex = 23
+    var alert = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         yearPicker.delegate = self
         yearPicker.dataSource = self
-        yearPicker.selectRow(beginningYearIndex, inComponent: 0, animated: false)
-        yearPicker.selectRow(endingYearIndex, inComponent: 1, animated: false)
-        enableSoundSwitch.isOn = true
-        slideshowModeSwitch.isOn = false
-        
+//        yearPicker.selectRow(beginningYearIndex, inComponent: 0, animated: false)
+//        yearPicker.selectRow(endingYearIndex, inComponent: 1, animated: false)
+//        nightModeSwitch.setOn(nightModeOn, animated: false)
+//        slideshowModeSwitch.setOn(slideShowOn, animated: false)
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         yearPicker.selectRow(beginningYearIndex, inComponent: 0, animated: false)
         yearPicker.selectRow(endingYearIndex, inComponent: 1, animated: false)
-        
+        nightModeSwitch.setOn(nightModeOn, animated: false)
+        slideshowModeSwitch.setOn(slideShowOn, animated: false)
     }
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "UnwindFromSave" {
             let destination = segue.destination as! ViewController
-            destination.soundEnabled = enableSoundSwitch.isOn
-            destination.slideshowModeEnabled = slideshowModeSwitch.isOn
+            destination.nightMode = nightModeSwitch.isOn
+            destination.slideshowMode = slideshowModeSwitch.isOn
             beginningYearIndex = yearPicker.selectedRow(inComponent: 0)
             destination.beginningYearIndex = self.beginningYearIndex
             endingYearIndex = yearPicker.selectedRow(inComponent: 1)
@@ -48,8 +54,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    @IBAction func soundSwitchChanged(_ sender: UISwitch) {
-    }
+   
     @IBAction func slideshowSwitchChanged(_ sender: UISwitch) {
     }
     
@@ -66,5 +71,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let yearsArray = [possibleYears, possibleYears]
         return yearsArray[component][row]
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.selectedRow(inComponent: 0) > pickerView.selectedRow(inComponent: 1){
+            saveButton.isEnabled = false
+        }
+        else {
+            saveButton.isEnabled = true
+        }
+        
     }
 }

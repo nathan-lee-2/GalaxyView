@@ -73,7 +73,7 @@ class APOD {
         date = "\(year)-\(month)-\(day)"
     }
     
-    func RandomDate(beginningYear: Int, endingYear: Int) {
+    func RandomDate(beginningYear: Int, endingYear: Int, excluding: [String]) {
         let year = Int(arc4random_uniform(UInt32(endingYear-beginningYear))) + beginningYear
         let month = Int(arc4random_uniform(UInt32(12))) + 1
         var day = Int()
@@ -87,6 +87,9 @@ class APOD {
             day = Int(arc4random_uniform(UInt32(28))) + 1
         }
         date = "\(year)-\(month)-\(day)"
+        if excluding.contains(date){
+            RandomDate(beginningYear: beginningYear, endingYear: endingYear, excluding: excluding)
+        }
     }
     
    
