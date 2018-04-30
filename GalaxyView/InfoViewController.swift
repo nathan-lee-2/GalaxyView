@@ -33,6 +33,9 @@ class InfoViewController: UIViewController {
         }
         titleLabel.text = apod.title
         dateLabel.text = apod.date
+        if apod.date == "" {
+            dateLabel.text = "Today's Picture"
+        }
         if apod.mediaType != "image" {
             infoView.text = "Video can be viewed by copy-pasting this link into any browser:\n\n"
             infoView.text.append(apod.imageURL)
