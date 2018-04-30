@@ -16,14 +16,19 @@ class InfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleLabel.text = apod.title
+        dateLabel.text = apod.date
+        if apod.imageURL == "" {
+            infoView.text = "Video can be viewed at this link: "
+            infoView.text.append(apod.mediaType)
+            infoView.text.append("\n\n")
+            infoView.text.append(apod.explanation)
+        } else{
+            infoView.text = apod.explanation
+        }
+        infoView.isEditable = false
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        titleLabel.text = apod.title
-        dateLabel.text = "date: " + apod.date
-        infoView.text = apod.explanation
-    }
     @IBAction func backButtonPressed(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }

@@ -55,6 +55,10 @@ class APOD {
             case .failure(let error):
                 print(error)
             }
+            if self.mediaType != "image" {
+                self.mediaType = self.imageURL
+                self.imageURL = ""
+            }
             completed()
         }
     }
@@ -91,7 +95,6 @@ class APOD {
             RandomDate(beginningYear: beginningYear, endingYear: endingYear, excluding: excluding)
         }
     }
-    
    
     
 }

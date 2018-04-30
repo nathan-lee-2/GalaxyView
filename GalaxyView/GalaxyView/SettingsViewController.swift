@@ -24,14 +24,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         super.viewDidLoad()
         yearPicker.delegate = self
         yearPicker.dataSource = self
-//        yearPicker.selectRow(beginningYearIndex, inComponent: 0, animated: false)
-//        yearPicker.selectRow(endingYearIndex, inComponent: 1, animated: false)
-//        nightModeSwitch.setOn(nightModeOn, animated: false)
-//        slideshowModeSwitch.setOn(slideShowOn, animated: false)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         yearPicker.selectRow(beginningYearIndex, inComponent: 0, animated: false)
         yearPicker.selectRow(endingYearIndex, inComponent: 1, animated: false)
         nightModeSwitch.setOn(nightModeOn, animated: false)
@@ -39,7 +31,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "UnwindFromSave" {
             let destination = segue.destination as! ViewController
             destination.nightMode = nightModeSwitch.isOn
@@ -53,9 +44,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-    }
-   
-    @IBAction func slideshowSwitchChanged(_ sender: UISwitch) {
     }
     
     @IBAction func restoreDefaultsPressed(_ sender: UIButton) {

@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var spaceImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var prevButton: UIButton!
+    @IBOutlet weak var videoLabel: UILabel!
     var apod = APOD()
     var prevDates = [String]()
     var counter = 0
@@ -26,6 +28,7 @@ class ViewController: UIViewController {
         beginningYearIndex = 15
         endingYearIndex = possibleYears.count - 1
         newAPOD()
+        prevDates.append(apod.date)
         prevButton.isEnabled = false
     }
     
@@ -42,18 +45,25 @@ class ViewController: UIViewController {
     //changed the button.text to random to make it more user friendly but its still next in my code
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         prevButton.isEnabled = true
+        apod.RandomDate(beginningYear: Int(possibleYears[beginningYearIndex])!, endingYear: Int(possibleYears[endingYearIndex])!, excluding: prevDates)
+        newAPOD()
         if !prevDates.contains(apod.date){
             prevDates.append(apod.date)
         }
-        counter = prevDates.count
-        apod.RandomDate(beginningYear: Int(possibleYears[beginningYearIndex])!, endingYear: Int(possibleYears[endingYearIndex])!, excluding: prevDates)
-        newAPOD()
+        counter = prevDates.count - 1
     }
     
     func newAPOD() {
         apod.setAPOD {
             self.titleLabel.text = self.apod.title
-            self.spaceImage.downloadedFrom(link: self.apod.imageURL)
+            if self.apod.imageURL == "" {
+                self.videoLabel.isHidden = false
+                self.spaceImage.image = nil
+            }
+            else {
+                self.videoLabel.isHidden = true
+                self.spaceImage.downloadedFrom(link: self.apod.imageURL)
+            }
         }
     }
     
