@@ -83,7 +83,9 @@ class APOD {
         var month = Int()
         if year == 1995 {
             month = Int(arc4random_uniform(UInt32(6))) + 6
-        }else{
+        }else if year == 2018 {
+            month = Int(arc4random_uniform(UInt32(4))) + 1
+        }else {
             month = Int(arc4random_uniform(UInt32(12))) + 1
         }
         var day = Int()
