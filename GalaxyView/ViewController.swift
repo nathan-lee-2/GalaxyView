@@ -5,6 +5,7 @@
 //  Created by Nathan Lee on 4/28/18.
 //  Copyright © 2018 Lee. All rights reserved.
 //
+//  Stuff I have yet to implement: notification pushing, a clean way to show/link video in app, a way to zoom in on images.
 
 import UIKit
 import AVFoundation

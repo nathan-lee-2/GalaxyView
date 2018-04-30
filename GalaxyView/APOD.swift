@@ -46,16 +46,17 @@ class APOD {
                 }else {
                     print("Could not return a picture URL")
                 }
-                if let exp = json["explanation"].string {
-                    self.explanation = exp
-                }else {
-                    print("Could not return an explanation")
-                }
                 if let titleString = json["title"].string {
                     self.title = titleString
                 }else {
                     print("Could not return a title")
                 }
+                if let exp = json["explanation"].string {
+                    self.explanation = exp
+                }else {
+                    print("Could not return an explanation")
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -79,7 +80,12 @@ class APOD {
     
     func RandomDate(beginningYear: Int, endingYear: Int, excluding: [String]) {
         let year = Int(arc4random_uniform(UInt32(endingYear-beginningYear))) + beginningYear
-        let month = Int(arc4random_uniform(UInt32(12))) + 1
+        var month = Int()
+        if year == 1995 {
+            month = Int(arc4random_uniform(UInt32(6))) + 6
+        }else{
+            month = Int(arc4random_uniform(UInt32(12))) + 1
+        }
         var day = Int()
         if month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12{
             day = Int(arc4random_uniform(UInt32(31))) + 1

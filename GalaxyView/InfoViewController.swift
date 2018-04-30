@@ -38,9 +38,13 @@ class InfoViewController: UIViewController {
             infoView.text.append(apod.imageURL)
             infoView.text.append("\n\n")
             infoView.text.append(apod.explanation)
+        } else if self.titleLabel.text == "Tomorrow's picture:" {
+            infoView.text = "Many older pictures have \"Tomorrow's picture\" as the title and many errors in the description. You can change the years in the settings.\n\n"
+            infoView.text.append(apod.explanation)
         } else {
             infoView.text = apod.explanation
         }
+        
         
         infoView.isEditable = false
     }
